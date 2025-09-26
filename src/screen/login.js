@@ -1,13 +1,15 @@
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
-  View,
+  Alert,
+  Image,
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
-  Image,
   useWindowDimensions,
+  View,
 } from "react-native";
+import { auth } from "../../firebaseConfig"; // Verifique se o caminho está correto
 import styles from "./login.styles";
 
 export default function Login({ navigation }) {
@@ -18,12 +20,26 @@ export default function Login({ navigation }) {
   const isLargeScreen = width >= 768; // breakpoint para web
 
   const handleLogin = () => {
-    if (email && senha) {
-      Alert.alert("Sucesso", `Bem-vindo ${email}`);
-      navigation.replace("Home");
-    } else {
-      Alert.alert("Erro", "Preencha todos os campos");
+    if (!email || !senha) {
+      Alert.alert("Erro", "Preencha e-mail e senha");
+      return;
     }
+
+    signInWithEmailAndPassword(auth, email, senha)
+      .then((userCredential) => {
+        // Login bem-sucedido
+        const user = userCredential.user;
+        console.log("Login realizado com sucesso:", user.email);
+        // A navegação para a Home será gerenciada pelo App.js
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        if (errorCode === "auth/user-not-found" || errorCode === "auth/wrong-password" || errorCode === "auth/invalid-credential") {
+          Alert.alert("Erro", "Usuário ou senha inválidos.");
+        } else {
+          Alert.alert("Erro ao fazer login", error.message);
+        }
+      });
   };
 
   return (
@@ -60,9 +76,11 @@ export default function Login({ navigation }) {
           <Text style={styles.buttonText}>ENTRAR</Text>
         </TouchableOpacity>
 
-        <Text style={styles.registerText}>
-          Não possui conta? <Text style={styles.link}>Clique aqui</Text> para registrar!
-        </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.registerText}>
+            Não possui conta? <Text style={styles.link}>Clique aqui</Text> para registrar!
+          </Text>
+        </TouchableOpacity>
       </View>
 
       {/* Logo */}
