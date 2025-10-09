@@ -9,7 +9,8 @@ import CadastroProdutos from "./src/screen/cadastroprodutos";
 import Home from "./src/screen/home";
 import Login from "./src/screen/login";
 import Register from "./src/screen/register";
-
+import RegistrarVenda from "./src/screen/registrarvenda";
+import RelatorioVendas from "./src/screen/relatoriodevendas";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -47,6 +48,16 @@ export default function App() {
               name="CadastroProdutos"
               component={CadastroProdutos}
               options={{ title: "Cadastro de Estoque" }}
+            />
+            <Stack.Screen
+              name="RelatorioVendas"
+              component={RelatorioVendas}
+              options={{ title: "Relatório de Vendas" }}
+            />
+            <Stack.Screen
+              name="RegistrarVenda"
+              component={RegistrarVenda}
+              options={{ title: "Registrar Venda" }}
             />
           </>
         ) : (

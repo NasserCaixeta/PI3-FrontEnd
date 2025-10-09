@@ -122,6 +122,7 @@ export default function CadastroProdutos() {
             <TouchableOpacity
               onMouseEnter={() => setHoveredItem("vendas")}
               onMouseLeave={() => setHoveredItem(null)}
+              onPress={() => navigation.navigate("RegistrarVenda")}
             >
               <Text
                 style={[
@@ -136,6 +137,7 @@ export default function CadastroProdutos() {
             <TouchableOpacity
               onMouseEnter={() => setHoveredItem("relatorios")}
               onMouseLeave={() => setHoveredItem(null)}
+              onPress={() => navigation.navigate("RelatorioVendas")}
             >
               <Text
                 style={[

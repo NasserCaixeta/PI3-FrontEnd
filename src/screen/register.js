@@ -1,13 +1,13 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
-    Alert,
-    Image,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    useWindowDimensions,
-    View,
+  Alert,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  useWindowDimensions,
+  View,
 } from "react-native";
 import { auth } from "../../firebaseConfig"; // Verifique se o caminho está correto
 import styles from "./login.styles"; // Reutilizando os mesmos estilos do login

@@ -78,43 +78,56 @@ export default StyleSheet.create({
     color: "#333",
   },
   form: {
-    width: "60%",
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginTop: 12,
-    marginBottom: 6,
-    color: "#444",
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    backgroundColor: "#fafafa",
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: "#ff6600",
-    paddingVertical: 12,
-    borderRadius: 6,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
+  width: "30%", 
+  backgroundColor: "#fff",
+  padding: 24,
+  borderRadius: 10,
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.1,
+  shadowRadius: 6,
+  elevation: 3,
+  alignSelf: "center", 
+},
+
+label: {
+  fontSize: 15,
+  fontWeight: "600",
+  marginTop: 10,
+  marginBottom: 6,
+  color: "#444",
+},
+
+input: {
+  height: 42,
+  borderWidth: 1,
+  borderColor: "#ccc",
+  borderRadius: 8,
+  paddingHorizontal: 12,
+  backgroundColor: "#fafafa",
+  fontSize: 14,
+},
+
+button: {
+  marginTop: 25,
+  backgroundColor: "#ff6600",
+  paddingVertical: 10,
+  paddingHorizontal: 35, // 🔹 define largura proporcional ao texto
+  borderRadius: 6,
+  alignSelf: "center", // centraliza o botão
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.15,
+  shadowRadius: 4,
+  elevation: 3,
+},
+
+buttonText: {
+  color: "#fff",
+  fontWeight: "bold",
+  fontSize: 15,
+},
+
     card: {
     backgroundColor: "#fff",
     padding: 15,
