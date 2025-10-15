@@ -1,3 +1,4 @@
+import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import {
   ImageBackground,
@@ -7,9 +8,10 @@ import {
   useWindowDimensions,
   View
 } from "react-native";
+import { auth, db } from "../../firebaseConfig";
 import styles from "./cadastroprodutos.styles";
 
-export default function CadastroProdutos() {
+export default function CadastroProdutos({ navigation }) {
   const { width } = useWindowDimensions();
   const isLargeScreen = width >= 768;
 
@@ -22,16 +24,44 @@ export default function CadastroProdutos() {
   const [custo, setCusto] = useState("");
   const [preco, setPreco] = useState("");
 
-  const salvarEstoque = () => {
-    console.log("Produto salvo:", { nome, quantidade, custo, preco });
-    alert(`Produto "${nome}" salvo com sucesso!`);
+  const salvarEstoque = async () => {
+  // 1. Validação básica
+  if (!nome || !quantidade || !custo || !preco) {
+    alert("Por favor, preencha todos os campos.");
+    return;
+  }
+  
+  // 2. Tenta salvar no Firestore
+  try {
+    const user = auth.currentUser; // Pega o usuário atualmente logado
+    if (user) {
+      // Cria um novo documento na coleção "produtos"
+      const docRef = await addDoc(collection(db, "produtos"), {
+        nome: nome,
+        quantidade: parseInt(quantidade), // Converte para número inteiro
+        custo: parseFloat(custo),       // Converte para número com decimal
+        preco: parseFloat(preco),         // Converte para número com decimal
+        userId: user.uid,                 // Associa o produto ao usuário logado
+        dataCadastro: new Date()          // Adiciona a data do cadastro
+      });
+      
+      console.log("Produto salvo com o ID: ", docRef.id);
+      alert(`Produto "${nome}" salvo com sucesso!`);
 
-    // limpa os campos
-    setNome("");
-    setQuantidade("");
-    setCusto("");
-    setPreco("");
-  };
+      // Limpa os campos do formulário após o sucesso
+      setNome("");
+      setQuantidade("");
+      setCusto("");
+      setPreco("");
+    } else {
+      alert("Nenhum usuário logado. Faça o login para cadastrar produtos.");
+    }
+  } catch (error) {
+    // 3. Mostra um erro se algo der errado
+    console.error("Erro ao salvar o produto: ", error);
+    alert("Ocorreu um erro ao salvar o produto. Tente novamente.");
+  }
+};
 
   return (
     <View style={styles.container}>

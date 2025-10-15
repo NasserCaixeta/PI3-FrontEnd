@@ -1,5 +1,7 @@
-import { useState } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   ImageBackground,
   Text,
@@ -7,6 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
+import { auth, db } from "../../firebaseConfig";
 import styles from "./home.styles";
 
 export default function Home({ navigation }) {
@@ -14,15 +17,49 @@ export default function Home({ navigation }) {
   const isLargeScreen = width >= 768;
   const [hoveredItem, setHoveredItem] = useState(null);
 
-  const [estoque] = useState([
-    { id: "1", nome: "Tomate", custo: 2.5, preco: 4.5, quantidade: 100 },
-    { id: "2", nome: "Batata", custo: 1.8, preco: 3.5, quantidade: 200 },
-    { id: "3", nome: "Maçã", custo: 3.0, preco: 5.0, quantidade: 150 },
-  ]);
+  const [estoque, setEstoque] = useState([]); // Começa vazio
+  const [loading, setLoading] = useState(true); // Começa carregando
+
+
+useEffect(() => {
+  const user = auth.currentUser;
+
+  if (user) {
+    const produtosCollection = collection(db, "produtos");
+
+    const q = query(produtosCollection, where("userId", "==", user.uid));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const produtosList = [];
+      querySnapshot.forEach((doc) => {
+        produtosList.push({ id: doc.id, ...doc.data() });
+      });
+      setEstoque(produtosList); 
+      setLoading(false); 
+    }, (error) => {
+      console.error("Erro ao buscar produtos: ", error);
+      setLoading(false); 
+    });
+
+    
+    return () => unsubscribe();
+  }
+}, []); 
+
+
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.nome}>{item.nome}</Text>
+      <View style={styles.cardHeader}>
+        <Text style={styles.nome}>{item.nome}</Text>
+        {/* Botão Editar adicionado aqui */}
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => navigation.navigate("EditProduct", { productId: item.id })}
+        >
+          <Text style={styles.editButtonText}>Editar</Text>
+        </TouchableOpacity>
+      </View>
       <Text style={styles.texto}>💰 Custo: R$ {item.custo.toFixed(2)}</Text>
       <Text style={styles.texto}>🏷️ Preço: R$ {item.preco.toFixed(2)}</Text>
       <Text style={styles.texto}>📦 Estoque: {item.quantidade}</Text>
@@ -151,16 +188,27 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
-        {/* Conteúdo principal */}
+                {/* Conteúdo principal */}
         <View style={styles.mainContent}>
           <Text style={styles.sectionTitle}>📋 Lista de Estoque</Text>
 
-          <FlatList
-            data={estoque}
-            keyExtractor={(item) => item.id}
-            renderItem={renderItem}
-            style={{ width: "100%" }}
-          />
+          {loading ? (
+            // Se estiver carregando, mostra o indicador
+            <ActivityIndicator size="large" color="#ff6600" style={{ marginTop: 50 }} />
+          ) : estoque.length === 0 ? (
+            // Se não estiver carregando e a lista estiver vazia
+            <Text style={{ marginTop: 20, color: 'gray' }}>
+              Nenhum produto cadastrado ainda.
+            </Text>
+          ) : (
+            // Se tiver produtos, mostra a lista
+            <FlatList
+              data={estoque}
+              keyExtractor={(item) => item.id}
+              renderItem={renderItem} // Sua função renderItem não precisa mudar
+              style={{ width: "100%" }}
+            />
+          )}
         </View>
       </View>
     </View>

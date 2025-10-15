@@ -6,6 +6,7 @@ import { ActivityIndicator, View } from "react-native"; // <--- importar
 import { auth } from "./firebaseConfig";
 
 import CadastroProdutos from "./src/screen/cadastroprodutos";
+import EditProductScreen from "./src/screen/editProduct";
 import Home from "./src/screen/home";
 import Login from "./src/screen/login";
 import Register from "./src/screen/register";
@@ -48,6 +49,11 @@ export default function App() {
               name="CadastroProdutos"
               component={CadastroProdutos}
               options={{ title: "Cadastro de Estoque" }}
+            />
+            <Stack.Screen
+              name="EditProduct"
+              component={EditProductScreen}
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="RelatorioVendas"

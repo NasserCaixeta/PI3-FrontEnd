@@ -139,4 +139,22 @@ export default StyleSheet.create({
     color: "#555",
   },
 
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  editButton: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+  editButtonText: {
+    color: '#333',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+
 });
