@@ -8,6 +8,7 @@ export default StyleSheet.create({
   topBar: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,

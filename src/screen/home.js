@@ -1,3 +1,4 @@
+import { signOut } from "firebase/auth";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
@@ -20,9 +21,10 @@ export default function Home({ navigation }) {
   const [estoque, setEstoque] = useState([]); // Começa vazio
   const [loading, setLoading] = useState(true); // Começa carregando
 
+  const user = auth.currentUser;
 
 useEffect(() => {
-  const user = auth.currentUser;
+
 
   if (user) {
     const produtosCollection = collection(db, "produtos");
@@ -46,7 +48,9 @@ useEffect(() => {
   }
 }, []); 
 
-
+const handleLogout = () => {
+    signOut(auth).catch((error) => console.error("Erro no logout: ", error));
+  };
 
   const renderItem = ({ item }) => (
     <View style={styles.card}>
@@ -111,6 +115,12 @@ useEffect(() => {
             Alertas
           </Text>
         </TouchableOpacity>
+        <View style={styles.userInfo}>
+            <Text style={styles.userEmail}>{user?.email}</Text>
+            <TouchableOpacity onPress={handleLogout}>
+                <Text style={styles.logoutText}>Sair</Text>
+            </TouchableOpacity>
+        </View>
       </View>
 
       <View style={styles.contentWrapper}>

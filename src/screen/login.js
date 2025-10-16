@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { browserSessionPersistence, setPersistence, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import {
   Alert,
@@ -24,8 +24,12 @@ export default function Login({ navigation }) {
       Alert.alert("Erro", "Preencha e-mail e senha");
       return;
     }
+    setPersistence(auth, browserSessionPersistence)
 
-    signInWithEmailAndPassword(auth, email, senha)
+    .then(() => {
+      // Após definir a persistência, tenta fazer o login
+      return signInWithEmailAndPassword(auth, email, senha);
+    })
       .then((userCredential) => {
         // Login bem-sucedido
         const user = userCredential.user;

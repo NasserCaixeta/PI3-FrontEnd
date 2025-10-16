@@ -139,4 +139,35 @@ export default StyleSheet.create({
     color: "#555",
   },
 
+  // src/screen/relatoriodevendas.styles.js
+// ... no final do arquivo, adicione:
+
+  summaryContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 20,
+  },
+  summaryBox: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 8,
+    alignItems: 'center',
+    width: '48%',
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+  },
+  summaryLabel: {
+    fontSize: 14,
+    color: '#666',
+  },
+  summaryValue: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#ff6600',
+  },
 });
+
