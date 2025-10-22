@@ -40,12 +40,21 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     borderRightWidth: 1,
     borderColor: "#ddd",
-    padding: 10,
     position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
   },
+  sidebarMobile: {
+  width: "100%",
+  flexDirection: "column", 
+  alignItems: "center",
+  borderRightWidth: 0,
+  borderBottomWidth: 1,
+  borderColor: "#ddd",
+  paddingVertical: 10,
+  backgroundColor: "#fff", 
+  elevation: 3, 
+},
   menuGroup: {
     marginBottom: 20,
   },
@@ -54,6 +63,16 @@ export default StyleSheet.create({
     marginBottom: 8,
     fontSize: 14,
   },
+  mainContentMobile: {
+    marginLeft: 0,
+    paddingTop: 10,
+  },
+
+  contentWrapperMobile: {
+  flexDirection: "column", 
+    alignItems: "center",
+  },
+  
   menuItem: {
     fontSize: 14,
     marginBottom: 6,
@@ -138,9 +157,6 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
-
-  // src/screen/relatoriodevendas.styles.js
-// ... no final do arquivo, adicione:
 
   summaryContainer: {
     flexDirection: 'row',

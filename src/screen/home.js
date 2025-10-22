@@ -17,38 +17,36 @@ export default function Home({ navigation }) {
   const { width } = useWindowDimensions();
   const isLargeScreen = width >= 768;
   const [hoveredItem, setHoveredItem] = useState(null);
-
-  const [estoque, setEstoque] = useState([]); // Começa vazio
-  const [loading, setLoading] = useState(true); // Começa carregando
-
+  const [estoque, setEstoque] = useState([]);
+  const [loading, setLoading] = useState(true);
   const user = auth.currentUser;
 
-useEffect(() => {
+  useEffect(() => {
+    if (user) {
+      const produtosCollection = collection(db, "produtos");
+      const q = query(produtosCollection, where("userId", "==", user.uid));
 
+      const unsubscribe = onSnapshot(
+        q,
+        (querySnapshot) => {
+          const produtosList = [];
+          querySnapshot.forEach((doc) => {
+            produtosList.push({ id: doc.id, ...doc.data() });
+          });
+          setEstoque(produtosList);
+          setLoading(false);
+        },
+        (error) => {
+          console.error("Erro ao buscar produtos: ", error);
+          setLoading(false);
+        }
+      );
 
-  if (user) {
-    const produtosCollection = collection(db, "produtos");
+      return () => unsubscribe();
+    }
+  }, []);
 
-    const q = query(produtosCollection, where("userId", "==", user.uid));
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const produtosList = [];
-      querySnapshot.forEach((doc) => {
-        produtosList.push({ id: doc.id, ...doc.data() });
-      });
-      setEstoque(produtosList); 
-      setLoading(false); 
-    }, (error) => {
-      console.error("Erro ao buscar produtos: ", error);
-      setLoading(false); 
-    });
-
-    
-    return () => unsubscribe();
-  }
-}, []); 
-
-const handleLogout = () => {
+  const handleLogout = () => {
     signOut(auth).catch((error) => console.error("Erro no logout: ", error));
   };
 
@@ -56,7 +54,6 @@ const handleLogout = () => {
     <View style={styles.card}>
       <View style={styles.cardHeader}>
         <Text style={styles.nome}>{item.nome}</Text>
-        {/* Botão Editar adicionado aqui */}
         <TouchableOpacity
           style={styles.editButton}
           onPress={() => navigation.navigate("EditProduct", { productId: item.id })}
@@ -72,150 +69,77 @@ const handleLogout = () => {
 
   return (
     <View style={styles.container}>
-      {/* Logo no fundo */}
+      {/* OBS: Centralizei o logo */}
       <ImageBackground
         source={require("../../assets/images/logo_feira.png")}
         style={styles.backgroundImage}
         imageStyle={{
           resizeMode: "contain",
-          alignSelf: "flex-start",
-           marginLeft: 320,
-          opacity: 0.08, 
+          alignSelf: "center",
+          opacity: 0.08,
         }}
       />
 
       {/* Topbar */}
       <View style={styles.topBar}>
-
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("inicio")}
-          onMouseLeave={() => setHoveredItem(null)}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "inicio" && styles.topMenuHover,
-            ]}
-          >
-            Início
-          </Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Home")}>
+          <Text style={styles.topMenuText}>Início</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("alertas")}
-          onMouseLeave={() => setHoveredItem(null)}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "alertas" && styles.topMenuHover,
-            ]}
-          >
-            Alertas
-          </Text>
+        <TouchableOpacity>
+          <Text style={styles.topMenuText}>Alertas</Text>
         </TouchableOpacity>
+
         <View style={styles.userInfo}>
-            <Text style={styles.userEmail}>{user?.email}</Text>
-            <TouchableOpacity onPress={handleLogout}>
-                <Text style={styles.logoutText}>Sair</Text>
-            </TouchableOpacity>
+          <Text style={styles.userEmail}>{user?.email}</Text>
+          <TouchableOpacity onPress={handleLogout}>
+            <Text style={styles.logoutText}>Sair</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
-      <View style={styles.contentWrapper}>
-        {/* Sidebar */}
-        <View style={styles.sidebar}>
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Estoque</Text>
-
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("cadastro")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("CadastroProdutos")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "cadastro" && styles.menuItemHover,
-                ]}
-              >
-                Cadastro de Estoque
-              </Text>
-            </TouchableOpacity>
-            <View>
-  <View style={styles.menuGroup}>
-    <TouchableOpacity
-      onMouseEnter={() => setHoveredItem("pereciveis")}
-      onMouseLeave={() => setHoveredItem(null)}
-    >
-      <Text
+      {/* OBS: Mantive a sidebar, mas com comportamento ajustado para telas pequenas */}
+            <View
         style={[
-          styles.menuItem,
-          hoveredItem === "pereciveis" && styles.menuItemHover,
+          styles.contentWrapper,
+          !isLargeScreen && { flexDirection: "column" }, // OBS: empilha tudo no mobile
         ]}
       >
-        Perecíveis
-      </Text>
-    </TouchableOpacity>
-  </View>
+        <View style={[styles.sidebar, !isLargeScreen && styles.sidebarMobile]}>
+          <Text style={styles.menuGroupTitle}>Estoque</Text>
 
-  <View style={styles.menuGroup}>
-    <Text style={styles.menuGroupTitle}>Vendas</Text>
+          <TouchableOpacity onPress={() => navigation.navigate("CadastroProdutos")}>
+            <Text style={styles.menuItem}>Cadastro de Estoque</Text>
+          </TouchableOpacity>
 
-    <TouchableOpacity
-      onMouseEnter={() => setHoveredItem("vendas")}
-      onMouseLeave={() => setHoveredItem(null)}
-      onPress={() => navigation.navigate("RegistrarVenda")}
-    >
-      <Text
-        style={[
-          styles.menuItem,
-          hoveredItem === "vendas" && styles.menuItemHover,
-        ]}
-      >
-        Registro de Vendas
-      </Text>
-    </TouchableOpacity>
+          <TouchableOpacity>
+            <Text style={styles.menuItem}>Perecíveis</Text>
+          </TouchableOpacity>
 
-    <TouchableOpacity
-      onMouseEnter={() => setHoveredItem("relatorios")}
-      onMouseLeave={() => setHoveredItem(null)}
-      onPress={() => navigation.navigate("RelatorioVendas")}
-    >
-      <Text
-        style={[
-          styles.menuItem,
-          hoveredItem === "relatorios" && styles.menuItemHover,
-        ]}
-      >
-        Relatórios
-      </Text>
-    </TouchableOpacity>
-  </View>
-</View>
+          <Text style={styles.menuGroupTitle}>Vendas</Text>
 
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("RegistrarVenda")}>
+            <Text style={styles.menuItem}>Registro de Vendas</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("RelatorioVendas")}>
+            <Text style={styles.menuItem}>Relatórios</Text>
+          </TouchableOpacity>
         </View>
 
-                {/* Conteúdo principal */}
+        {/* Conteúdo principal */}
         <View style={styles.mainContent}>
           <Text style={styles.sectionTitle}>📋 Lista de Estoque</Text>
 
           {loading ? (
-            // Se estiver carregando, mostra o indicador
             <ActivityIndicator size="large" color="#ff6600" style={{ marginTop: 50 }} />
           ) : estoque.length === 0 ? (
-            // Se não estiver carregando e a lista estiver vazia
-            <Text style={{ marginTop: 20, color: 'gray' }}>
-              Nenhum produto cadastrado ainda.
-            </Text>
+            <Text style={{ marginTop: 20, color: "gray" }}>Nenhum produto cadastrado ainda.</Text>
           ) : (
-            // Se tiver produtos, mostra a lista
             <FlatList
               data={estoque}
               keyExtractor={(item) => item.id}
-              renderItem={renderItem} // Sua função renderItem não precisa mudar
+              renderItem={renderItem}
               style={{ width: "100%" }}
             />
           )}

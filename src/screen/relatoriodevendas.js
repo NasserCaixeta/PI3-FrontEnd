@@ -1,10 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
+
 import {
   ActivityIndicator,
   FlatList,
   ImageBackground,
   Text,
   TouchableOpacity,
+  useWindowDimensions,
+  isLargeScreen,
   View,
 } from "react-native";
 import styles from "./relatoriodevendas.styles";
@@ -21,7 +24,12 @@ import { auth, db } from "../../firebaseConfig";
 
 export default function RelatorioVendas({ navigation }) {
   const [hoveredItem, setHoveredItem] = useState(null);
+  
+  // --- RESPONSIVIDADE ---
+  const { width } = useWindowDimensions();
+  const isLargeScreen = width >= 768;
 
+  
   // --- 2. NOVOS ESTADOS ---
   const [vendas, setVendas] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -122,9 +130,24 @@ export default function RelatorioVendas({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.contentWrapper}>
+      <View
+          style={[
+            styles.contentWrapper,
+            !isLargeScreen && styles.contentWrapperMobile,
+          ]}
+        >
+
+
+
         {/* Sidebar */}
-        <View style={styles.sidebar}>
+        <View
+          style={[
+            styles.sidebar,
+            !isLargeScreen && styles.sidebarMobile,
+            !isLargeScreen && { position: "relative", width: "100%" }, 
+          ]}
+        >
+
           <View style={styles.menuGroup}>
             <Text style={styles.menuGroupTitle}>Estoque</Text>
 
@@ -196,8 +219,14 @@ export default function RelatorioVendas({ navigation }) {
 
           </View>
         </View>
+        {/* Main Content */}
+        <View
+          style={[
+            styles.mainContent,
+            !isLargeScreen && { marginLeft: 0, width: "100%" }, // força ocupação total
+          ]}
+        >
 
-        <View style={styles.mainContent}>
         <Text style={styles.sectionTitle}>📈 Relatório de Vendas</Text>
 
         {/* Resumo */}

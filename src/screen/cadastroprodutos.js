@@ -110,9 +110,15 @@ export default function CadastroProdutos({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.contentWrapper}>
+          <View
+      style={[
+        styles.contentWrapper,
+        !isLargeScreen && { flexDirection: "column" }, 
+      ]}
+    >
+
         {/* Sidebar */}
-        <View style={styles.sidebar}>
+        <View style={[styles.sidebar, !isLargeScreen && styles.sidebarMobile]}>
           <View style={styles.menuGroup}>
             <Text style={styles.menuGroupTitle}>Estoque</Text>
 
@@ -182,7 +188,7 @@ export default function CadastroProdutos({ navigation }) {
         </View>
 
         {/* Main Content */}
-        <View style={styles.mainContent}>
+        <View style={[styles.mainContent, !isLargeScreen && styles.mainContentMobile]}>
           <Text style={styles.sectionTitle}>Cadastro de Estoque</Text>
 
           <View style={styles.form}>

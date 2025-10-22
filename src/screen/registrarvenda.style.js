@@ -40,12 +40,21 @@ export default StyleSheet.create({
     backgroundColor: "#fff",
     borderRightWidth: 1,
     borderColor: "#ddd",
-    padding: 10,
     position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
   },
+  sidebarMobile: {
+  width: "100%",
+  flexDirection: "column", 
+  alignItems: "center",
+  borderRightWidth: 0,
+  borderBottomWidth: 1,
+  borderColor: "#ddd",
+  paddingVertical: 10,
+  backgroundColor: "#fff", 
+  elevation: 3, 
+},
   menuGroup: {
     marginBottom: 20,
   },
@@ -71,6 +80,15 @@ export default StyleSheet.create({
     marginLeft: 200,
     padding: 20,
   },
+  mainContentMobile: {
+    marginLeft: 0,
+    paddingTop: 10,
+  },
+
+  contentWrapperMobile: {
+  flexDirection: "column", 
+    alignItems: "center",
+  },
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -78,7 +96,7 @@ export default StyleSheet.create({
     color: "#333",
   },
   form: {
-  width: "30%", 
+  width: "70%", 
   backgroundColor: "#fff",
   padding: 24,
   borderRadius: 10,

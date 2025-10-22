@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  isLargeScreen
 } from "react-native";
 import styles from "./registrarvenda.style";
 
@@ -25,8 +26,10 @@ import { auth, db } from "../../firebaseConfig";
 
 const RegistrarVenda = ({ navigation }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
-
-  // 2. NOVOS ESTADOS PARA GERENCIAR A LÓGICA
+   
+  
+  
+    // 2. NOVOS ESTADOS PARA GERENCIAR A LÓGICA
   const [produtos, setProdutos] = useState([]); // Armazena a lista de produtos do DB
   const [produtoSelecionadoId, setProdutoSelecionadoId] = useState(null); // Guarda o ID do produto escolhido
   const [quantidade, setQuantidade] = useState("");
@@ -43,7 +46,7 @@ const RegistrarVenda = ({ navigation }) => {
           produtosDoUsuario.push({
             label: `${doc.data().nome} (Estoque: ${doc.data().quantidade})`,
             value: doc.id,
-            ...doc.data(), // Inclui todos os dados do produto
+            ...doc.data(), 
           });
         });
         setProdutos(produtosDoUsuario);
@@ -167,9 +170,15 @@ const RegistrarVenda = ({ navigation }) => {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.contentWrapper}>
+      <View style={[styles.contentWrapper, !isLargeScreen && { flexDirection: "column" }]}>
         {/* Sidebar */}
-        <View style={styles.sidebar}>
+        <View
+            style={[
+            styles.sidebar,
+            !isLargeScreen && styles.sidebarMobile,
+            !isLargeScreen && { position: "relative", width: "100%" }, 
+            ]}
+        >
           <View style={styles.menuGroup}>
             <Text style={styles.menuGroupTitle}>Estoque</Text>
 
@@ -240,7 +249,7 @@ const RegistrarVenda = ({ navigation }) => {
             </View>
           </View>
         </View>
-        <View style={styles.mainContent}>
+        <View style={[styles.mainContent, !isLargeScreen && styles.mainContentMobile]}>
           <Text style={styles.sectionTitle}>Cadastro de Estoque</Text>
 
           <View style={styles.form}>

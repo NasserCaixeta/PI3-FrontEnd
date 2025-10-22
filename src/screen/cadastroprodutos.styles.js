@@ -5,9 +5,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#e5e5e5",
   },
+
+  // 🧭 Barra superior
   topBar: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -17,67 +20,89 @@ export default StyleSheet.create({
   logoText: {
     fontSize: 18,
     fontWeight: "bold",
-    marginRight: 30,
   },
   topMenuText: {
     fontSize: 16,
-    marginHorizontal: 15,
-    color: "#000000ff",
-    transition: "color 0.3s",
-    marginLeft: 190,
+    marginHorizontal: 10,
+    color: "#000",
     fontWeight: "bold",
   },
   topMenuHover: {
     color: "#ff6600",
   },
+
+  // 🧱 Estrutura geral
   contentWrapper: {
     flex: 1,
     flexDirection: "row",
   },
+
+  // 🧩 Sidebar padrão (desktop/tablet)
   sidebar: {
-    width: 200,
+    width: 220,
     backgroundColor: "#fff",
     borderRightWidth: 1,
     borderColor: "#ddd",
-    padding: 10,
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
   },
+
+  // 📱 Sidebar adaptada para mobile
+  sidebarMobile: {
+    width: "100%",
+    flexDirection: "column", // OBS: empilha itens verticalmente
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+    paddingVertical: 10,
+    elevation: 3, // OBS: leve sombra no mobile
+  },
+
   menuGroup: {
     marginBottom: 20,
   },
   menuGroupTitle: {
     fontWeight: "bold",
     marginBottom: 8,
-    fontSize: 14,
+    fontSize: 15,
+    textAlign: "center",
   },
   menuItem: {
     fontSize: 14,
-    marginBottom: 6,
-    marginLeft: 10,
+    marginBottom: 8,
     color: "#000",
-    transition: "color 0.3s",
+    textAlign: "center", // OBS: centraliza no mobile
   },
   menuItemHover: {
     color: "#ff6600",
   },
+
+  // 📋 Conteúdo principal
   mainContent: {
     flex: 1,
     alignItems: "center",
     justifyContent: "flex-start",
-    marginLeft: 200,
     padding: 20,
   },
+  mainContentMobile: {
+    // OBS: aplica no mobile (sem marginLeft fixa)
+    marginLeft: 0,
+    paddingTop: 10,
+  },
+
   sectionTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
+    textAlign: "center",
   },
+
+  // 🧾 Formulário
   form: {
-    width: "60%",
+    width: "90%", // OBS: mais fluido no mobile
     backgroundColor: "#fff",
     padding: 20,
     borderRadius: 8,

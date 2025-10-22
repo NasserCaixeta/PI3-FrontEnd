@@ -5,6 +5,13 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#e5e5e5",
   },
+  backgroundImage: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   topBar: {
     flexDirection: "row",
     alignItems: "center",
@@ -15,61 +22,56 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "#ddd",
   },
-  logoText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginRight: 10,
-
-  },
   topMenuText: {
     fontSize: 16,
-    marginHorizontal: 15,
+    marginHorizontal: 10,
     color: "#000",
-    transition: "color 0.3s",
     fontWeight: "bold",
-    marginLeft: 190,
-  },
-  topMenuHover: {
-    color: "#ff6600",
   },
   contentWrapper: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  sidebar: {
-    width: 200,
-    backgroundColor: "#fff",
-    borderRightWidth: 1,
-    borderColor: "#ddd",
-    padding: 10,
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    left: 0,
-  },
-  menuGroup: {
-    marginBottom: 20,
-  },
+  flex: 1,
+  flexDirection: "row",
+},
+
+// 🧩 Sidebar desktop
+sidebar: {
+  width: 220,
+  backgroundColor: "#fff",
+  borderRightWidth: 1,
+  borderColor: "#ddd",
+  paddingVertical: 15,
+  paddingHorizontal: 10,
+},
+
+// 🧩 Sidebar mobile — agora empilhada logo abaixo do topbar
+sidebarMobile: {
+  width: "100%",
+  flexDirection: "column", // OBS: empilha os botões verticalmente
+  alignItems: "center",
+  borderRightWidth: 0,
+  borderBottomWidth: 1,
+  borderColor: "#ddd",
+  paddingVertical: 10,
+  backgroundColor: "#fff", // mantém o contraste
+  elevation: 3, // dá uma leve sombra
+},
+
   menuGroupTitle: {
     fontWeight: "bold",
     marginBottom: 8,
-    fontSize: 14,
+    fontSize: 15,
+    textAlign: "center",
   },
   menuItem: {
     fontSize: 14,
-    marginBottom: 6,
-    marginLeft: 10,
+    marginBottom: 10,
+    textAlign: "center",
     color: "#000",
-    transition: "color 0.3s",
-  },
-  menuItemHover: {
-    color: "#ff6600",
   },
   mainContent: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
-    marginLeft: 200,
+    justifyContent: "center",
     padding: 20,
   },
   sectionTitle: {
@@ -77,46 +79,9 @@ export default StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
+    textAlign: "center",
   },
-  form: {
-    width: "60%",
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginTop: 12,
-    marginBottom: 6,
-    color: "#444",
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    backgroundColor: "#fafafa",
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: "#ff6600",
-    paddingVertical: 12,
-    borderRadius: 6,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-    card: {
+  card: {
     backgroundColor: "#fff",
     padding: 15,
     borderRadius: 8,
@@ -126,8 +91,8 @@ export default StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
-    width: "100%",
-    marginLeft: 10,
+    width: "95%",
+    alignSelf: "center",
   },
   nome: {
     fontSize: 18,
@@ -139,23 +104,21 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
-
   cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 5,
   },
   editButton: {
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 20,
   },
   editButtonText: {
-    color: '#333',
-    fontWeight: 'bold',
+    color: "#333",
+    fontWeight: "bold",
     fontSize: 12,
   },
-
 });
