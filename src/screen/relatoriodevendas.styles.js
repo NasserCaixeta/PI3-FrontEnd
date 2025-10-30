@@ -1,24 +1,34 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  // --- Estilos de Layout ---
   container: {
     flex: 1,
     backgroundColor: "#e5e5e5",
   },
-  topBar: {
+  backgroundImage: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  
+  // --- ESTILOS DA TOPBAR ATUALIZADOS ---
+   topBar: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between", 
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderColor: "#ddd",
   },
-  logoText: {
-    fontSize: 20,
+  logoText: { // Adicionado
+    fontSize: 18,
     fontWeight: "bold",
-    marginRight: 10,
-
+    color: "#ff6600",
   },
   topMenuText: {
     fontSize: 16,
@@ -30,6 +40,8 @@ export default StyleSheet.create({
   topMenuHover: {
     color: "#ff6600",
   },
+  // --- FIM DOS ESTILOS DA TOPBAR ---
+  
   contentWrapper: {
     flex: 1,
     flexDirection: "row",
@@ -85,8 +97,7 @@ export default StyleSheet.create({
   mainContent: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "flex-start",
-    marginLeft: 200,
+    justifyContent: "flex-start", // 'flex-start' para a lista
     padding: 20,
   },
   sectionTitle: {
@@ -94,46 +105,11 @@ export default StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 20,
     color: "#333",
+    textAlign: "center",
   },
-  form: {
-    width: "60%",
-    backgroundColor: "#fff",
-    padding: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  label: {
-    fontSize: 14,
-    fontWeight: "600",
-    marginTop: 12,
-    marginBottom: 6,
-    color: "#444",
-  },
-  input: {
-    height: 40,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 6,
-    paddingHorizontal: 10,
-    backgroundColor: "#fafafa",
-  },
-  button: {
-    marginTop: 20,
-    backgroundColor: "#ff6600",
-    paddingVertical: 12,
-    borderRadius: 6,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 16,
-  },
-    card: {
+
+  // --- Estilos de Card (Copiados do home.styles.js) ---
+  card: {
     backgroundColor: "#fff",
     padding: 15,
     borderRadius: 8,
@@ -143,8 +119,14 @@ export default StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 2,
-    width: "100%",
-    marginLeft: 10,
+    width: "95%",
+    alignSelf: "center",
+  },
+  cardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 5,
   },
   nome: {
     fontSize: 18,
@@ -156,33 +138,81 @@ export default StyleSheet.create({
     fontSize: 14,
     color: "#555",
   },
-
-  summaryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginBottom: 20,
+  textoData: {
+    fontSize: 13,
+    color: "#888",
+    fontStyle: "italic",
   },
-  summaryBox: {
-    backgroundColor: '#fff',
-    padding: 20,
+  textoTotal: {
+    fontSize: 15,
+    fontWeight: "bold",
+    color: "#1a1a1a",
+    marginTop: 5,
+  },
+
+  // --- Estilos de Botão e Modal (Copiados do home.styles.js) ---
+  filterButton: {
+    backgroundColor: "#ff6600",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
     borderRadius: 8,
-    alignItems: 'center',
-    width: '48%',
+  },
+  filterButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    width: 280,
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 3,
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
-  summaryLabel: {
-    fontSize: 14,
-    color: '#666',
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
   },
-  summaryValue: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#ff6600',
+  modalOption: {
+    backgroundColor: "#ff6600",
+    width: "100%",
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  modalOptionText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  modalCancel: {
+    marginTop: 10,
+  },
+  modalCancelText: {
+    color: "#555",
+    fontWeight: "bold",
+  },
+  exportButton: {
+    backgroundColor: "#ff6600", 
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+  },
+  exportButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
-

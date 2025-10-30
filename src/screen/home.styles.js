@@ -12,50 +12,59 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  
+  // --- ESTILOS DA TOPBAR ATUALIZADOS ---
   topBar: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-between", // Adicionado
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderBottomWidth: 1,
     borderColor: "#ddd",
   },
+  logoText: { // Adicionado
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#ff6600",
+  },
   topMenuText: {
     fontSize: 16,
-    marginHorizontal: 10,
+    marginHorizontal: 15, // Ajustado (era 10 em cadastro)
     color: "#000",
+    transition: "color 0.3s",
     fontWeight: "bold",
+    // marginLeft: 190, // Removido
   },
+  topMenuHover: { // Mantido
+    color: "#ff6600",
+  },
+  // --- FIM DOS ESTILOS DA TOPBAR ---
+
   contentWrapper: {
-  flex: 1,
-  flexDirection: "row",
-},
-
-// 🧩 Sidebar desktop
-sidebar: {
-  width: 220,
-  backgroundColor: "#fff",
-  borderRightWidth: 1,
-  borderColor: "#ddd",
-  paddingVertical: 15,
-  paddingHorizontal: 10,
-},
-
-// 🧩 Sidebar mobile — agora empilhada logo abaixo do topbar
-sidebarMobile: {
-  width: "100%",
-  flexDirection: "column", // OBS: empilha os botões verticalmente
-  alignItems: "center",
-  borderRightWidth: 0,
-  borderBottomWidth: 1,
-  borderColor: "#ddd",
-  paddingVertical: 10,
-  backgroundColor: "#fff", // mantém o contraste
-  elevation: 3, // dá uma leve sombra
-},
-
+    flex: 1,
+    flexDirection: "row",
+  },
+  sidebar: {
+    width: 220,
+    backgroundColor: "#fff",
+    borderRightWidth: 1,
+    borderColor: "#ddd",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+  },
+  sidebarMobile: {
+    width: "100%",
+    flexDirection: "column", 
+    alignItems: "center",
+    borderRightWidth: 0,
+    borderBottomWidth: 1,
+    borderColor: "#ddd",
+    paddingVertical: 10,
+    backgroundColor: "#fff", 
+    elevation: 3, 
+  },
   menuGroupTitle: {
     fontWeight: "bold",
     marginBottom: 8,
@@ -71,7 +80,7 @@ sidebarMobile: {
   mainContent: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center", // Mantido como 'center' para home
     padding: 20,
   },
   sectionTitle: {
@@ -81,6 +90,8 @@ sidebarMobile: {
     color: "#333",
     textAlign: "center",
   },
+  
+  // ... (Estilos de Card, Botões, Modal) ...
   card: {
     backgroundColor: "#fff",
     padding: 15,
@@ -120,5 +131,66 @@ sidebarMobile: {
     color: "#333",
     fontWeight: "bold",
     fontSize: 12,
+  },
+  filterButton: {
+    backgroundColor: "#ff6600",
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  filterButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  exportButton: {
+    backgroundColor: "#ff6600", 
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  exportButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContainer: {
+    backgroundColor: "#fff",
+    width: 280,
+    borderRadius: 12,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 15,
+  },
+  modalOption: {
+    backgroundColor: "#ff6600",
+    width: "100%",
+    paddingVertical: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  modalOptionText: {
+    color: "#fff",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  modalCancel: {
+    marginTop: 10,
+  },
+  modalCancelText: {
+    color: "#555",
+    fontWeight: "bold",
   },
 });

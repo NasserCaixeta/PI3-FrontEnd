@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import styles from "./registrarvenda.style";
 
-// 1. IMPORTAÇÕES NOVAS
+// IMPORTAÇÕES DO FIREBASE
 import {
   collection,
   doc,
@@ -25,30 +25,33 @@ import PickerSelect from "react-native-picker-select"; // O componente do seleto
 import { auth, db } from "../../firebaseConfig";
 
 const RegistrarVenda = ({ navigation }) => {
-  const [hoveredItem, setHoveredItem] = useState(null);
+  // 2. CALCULAR O TAMANHO DA TELA (igual ao home.js)
   const { width } = useWindowDimensions();
   const isLargeScreen = width >= 768;
 
-  
-  
-    // 2. NOVOS ESTADOS PARA GERENCIAR A LÓGICA
-  const [produtos, setProdutos] = useState([]); // Armazena a lista de produtos do DB
-  const [produtoSelecionadoId, setProdutoSelecionadoId] = useState(null); // Guarda o ID do produto escolhido
-  const [quantidade, setQuantidade] = useState("");
-  const [loading, setLoading] = useState(true); // Para feedback de carregamento
+  const [hoveredItem, setHoveredItem] = useState(null);
 
-  // 3. BUSCA OS PRODUTOS DO FIREBASE QUANDO A TELA CARREGA
+  // Estados para gerenciar a lógica
+  const [produtos, setProdutos] = useState([]);
+  const [produtoSelecionadoId, setProdutoSelecionadoId] = useState(null);
+  const [quantidade, setQuantidade] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  // Busca os produtos do Firebase
   useEffect(() => {
     const user = auth.currentUser;
     if (user) {
-      const q = query(collection(db, "produtos"), where("userId", "==", user.uid));
+      const q = query(
+        collection(db, "produtos"),
+        where("userId", "==", user.uid)
+      );
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const produtosDoUsuario = [];
         querySnapshot.forEach((doc) => {
           produtosDoUsuario.push({
             label: `${doc.data().nome} (Estoque: ${doc.data().quantidade})`,
             value: doc.id,
-            ...doc.data(), 
+            ...doc.data(),
           });
         });
         setProdutos(produtosDoUsuario);
@@ -58,7 +61,7 @@ const RegistrarVenda = ({ navigation }) => {
     }
   }, []);
 
-  // 4. A NOVA FUNÇÃO PARA REGISTRAR A VENDA DE FORMA SEGURA
+  // Função para registrar a venda
   const handleRegistrarVenda = async () => {
     if (!produtoSelecionadoId || !quantidade) {
       Alert.alert("Erro", "Selecione um produto e informe a quantidade.");
@@ -66,24 +69,26 @@ const RegistrarVenda = ({ navigation }) => {
     }
 
     const qtdVendida = parseInt(quantidade);
-    const produtoCompleto = produtos.find(p => p.value === produtoSelecionadoId);
+    const produtoCompleto = produtos.find(
+      (p) => p.value === produtoSelecionadoId
+    );
 
     if (qtdVendida <= 0) {
       Alert.alert("Erro", "A quantidade vendida deve ser maior que zero.");
       return;
     }
     if (qtdVendida > produtoCompleto.quantidade) {
-      Alert.alert("Erro", `Estoque insuficiente. Você só tem ${produtoCompleto.quantidade} unidades de ${produtoCompleto.nome}.`);
+      Alert.alert(
+        "Erro",
+        `Estoque insuficiente. Você só tem ${produtoCompleto.quantidade} unidades de ${produtoCompleto.nome}.`
+      );
       return;
     }
 
     try {
-      // Usamos uma TRANSAÇÃO para garantir a consistência dos dados.
-      // Se a atualização do estoque falhar, o registro da venda também falha (e vice-versa).
       await runTransaction(db, async (transaction) => {
         const produtoRef = doc(db, "produtos", produtoSelecionadoId);
-        
-        // Dentro da transação, primeiro lemos o dado mais atual do produto
+
         const produtoDoc = await transaction.get(produtoRef);
         if (!produtoDoc.exists()) {
           throw new Error("Produto não existe mais!");
@@ -92,11 +97,9 @@ const RegistrarVenda = ({ navigation }) => {
         const dadosProduto = produtoDoc.data();
         const novoEstoque = dadosProduto.quantidade - qtdVendida;
 
-        // Atualizamos o estoque do produto
         transaction.update(produtoRef, { quantidade: novoEstoque });
 
-        // Criamos um novo documento de venda
-        const vendaRef = doc(collection(db, "vendas")); // Gera um novo ID de venda
+        const vendaRef = doc(collection(db, "vendas"));
         transaction.set(vendaRef, {
           userId: auth.currentUser.uid,
           produtoId: produtoSelecionadoId,
@@ -104,43 +107,42 @@ const RegistrarVenda = ({ navigation }) => {
           quantidadeVendida: qtdVendida,
           valorUnitario: dadosProduto.preco,
           valorTotal: dadosProduto.preco * qtdVendida,
-          dataVenda: serverTimestamp(), // Usa a data/hora do servidor
+          dataVenda: serverTimestamp(),
         });
       });
 
       alert("Sucesso! Venda registrada e estoque atualizado.");
       setProdutoSelecionadoId(null);
       setQuantidade("");
-
     } catch (e) {
       console.error("Erro na transação de venda: ", e);
-      Alert.alert("Erro", "Não foi possível registrar a venda. Tente novamente.");
+      Alert.alert(
+        "Erro",
+        "Não foi possível registrar a venda. Tente novamente."
+      );
     }
   };
 
-
-  // ... (o return vai ser modificado abaixo)
-  // ... (a parte do TopBar e Sidebar pode continuar a mesma)
-  
-    if (loading) {
-    return <ActivityIndicator size="large" color="#ff6600" style={{ flex: 1 }} />;
+  if (loading) {
+    return (
+      <ActivityIndicator size="large" color="#ff6600" style={{ flex: 1 }} />
+    );
   }
 
   return (
     <View style={styles.container}>
-      {/* Logo no fundo */}
+      {/* Logo no fundo (igual ao home.js) */}
       <ImageBackground
         source={require("../../assets/images/logo_feira.png")}
         style={styles.backgroundImage}
         imageStyle={{
           resizeMode: "contain",
-          alignSelf: "flex-start",
-          marginLeft: 320,
-          opacity: 0.08, // bem suave no fundo
+          alignSelf: "center", // Ajustado
+          opacity: 0.08,
         }}
       />
 
-      {/* Topbar */}
+      {/* Topbar (igual ao home.js) */}
       <View style={styles.topBar}>
         <TouchableOpacity
           onMouseEnter={() => setHoveredItem("inicio")}
@@ -188,34 +190,43 @@ const RegistrarVenda = ({ navigation }) => {
             <Text style={styles.menuItem}>Relatórios</Text>
           </TouchableOpacity>
         </View>
-        <View style={[styles.mainContent, !isLargeScreen && styles.mainContentMobile]}>
-          <Text style={styles.sectionTitle}>Cadastro de Estoque</Text>
+
+        {/* mainContent (agora usa o estilo base correto) */}
+        <View style={styles.mainContent}>
+          {/* 3. TÍTULO CORRIGIDO */}
+          <Text style={styles.sectionTitle}> Registrar Venda</Text>
 
           <View style={styles.form}>
-          <Text style={styles.label}>Selecione o Produto</Text>
-          {/* 5. SUBSTITUÍMOS O TEXTINPUT PELO SELETOR */}
-          <PickerSelect
-            onValueChange={(value) => setProdutoSelecionadoId(value)}
-            items={produtos}
-            placeholder={{ label: "Clique para escolher um produto...", value: null }}
-            style={{
-              inputIOS: styles.input,
-              inputAndroid: styles.input,
-              inputWeb: styles.input,
-            }}
-          
-          />
+            <Text style={styles.label}>Selecione o Produto</Text>
+            <PickerSelect
+              onValueChange={(value) => setProdutoSelecionadoId(value)}
+              items={produtos}
+              placeholder={{
+                label: "Clique para escolher um produto...",
+                value: null,
+              }}
+              style={{
+                inputIOS: styles.input,
+                inputAndroid: styles.input,
+                inputWeb: styles.input,
+              }}
+              value={produtoSelecionadoId}
+            />
 
             <Text style={styles.label}>Quantidade vendida</Text>
             <TextInput
               style={styles.input}
-              placeholder="Ex: 100"
+              placeholder="Ex: 10" // Placeholder ajustado
               keyboardType="numeric"
               value={quantidade}
               onChangeText={setQuantidade}
             />
 
-            <TouchableOpacity style={styles.button} onPress={handleRegistrarVenda}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={handleRegistrarVenda}
+            >
+              {/* 4. TEXTO DO BOTÃO CORRIGIDO */}
               <Text style={styles.buttonText}>Registrar Venda</Text>
             </TouchableOpacity>
           </View>
