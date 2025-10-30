@@ -8,6 +8,7 @@ export default StyleSheet.create({
   topBar: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
     backgroundColor: "#fff",
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -26,7 +27,6 @@ export default StyleSheet.create({
     color: "#000",
     transition: "color 0.3s",
     fontWeight: "bold",
-    marginLeft: 190,
   },
   topMenuHover: {
     color: "#ff6600",
@@ -35,40 +35,41 @@ export default StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  sidebar: {
-    width: 200,
-    backgroundColor: "#fff",
-    borderRightWidth: 1,
-    borderColor: "#ddd",
-    position: "absolute",
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-  },
-  sidebarMobile: {
+sidebar: {
+  width: 220,
+  backgroundColor: "#fff",
+  borderRightWidth: 1,
+  borderColor: "#ddd",
+  paddingVertical: 15,
+  paddingHorizontal: 10,
+},
+
+sidebarMobile: {
   width: "100%",
-  flexDirection: "column", 
+  flexDirection: "column", // OBS: empilha os botões verticalmente
   alignItems: "center",
   borderRightWidth: 0,
   borderBottomWidth: 1,
   borderColor: "#ddd",
   paddingVertical: 10,
-  backgroundColor: "#fff", 
-  elevation: 3, 
+  backgroundColor: "#fff", // mantém o contraste
+  elevation: 3, // dá uma leve sombra
 },
+
   menuGroup: {
     marginBottom: 20,
   },
   menuGroupTitle: {
     fontWeight: "bold",
     marginBottom: 8,
-    fontSize: 14,
+    fontSize: 15,
+    textAlign: "center",
   },
   menuItem: {
     fontSize: 14,
-    marginBottom: 6,
-    marginLeft: 10,
+    marginBottom: 8,
+    textAlign: "center",
     color: "#000",
-    transition: "color 0.3s",
   },
   menuItemHover: {
     color: "#ff6600",

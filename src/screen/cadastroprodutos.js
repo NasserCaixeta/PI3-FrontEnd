@@ -95,19 +95,6 @@ export default function CadastroProdutos({ navigation }) {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("alertas")}
-          onMouseLeave={() => setHoveredItem(null)}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "alertas" && styles.topMenuHover,
-            ]}
-          >
-            Alertas
-          </Text>
-        </TouchableOpacity>
       </View>
 
           <View

@@ -6,8 +6,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useWindowDimensions,
   View,
-  isLargeScreen
 } from "react-native";
 import styles from "./registrarvenda.style";
 
@@ -26,7 +26,9 @@ import { auth, db } from "../../firebaseConfig";
 
 const RegistrarVenda = ({ navigation }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
-   
+  const { width } = useWindowDimensions();
+  const isLargeScreen = width >= 768;
+
   
   
     // 2. NOVOS ESTADOS PARA GERENCIAR A LÓGICA
@@ -155,99 +157,36 @@ const RegistrarVenda = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("alertas")}
-          onMouseLeave={() => setHoveredItem(null)}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "alertas" && styles.topMenuHover,
-            ]}
-          >
-            Alertas
-          </Text>
-        </TouchableOpacity>
       </View>
 
       <View style={[styles.contentWrapper, !isLargeScreen && { flexDirection: "column" }]}>
         {/* Sidebar */}
         <View
-            style={[
-            styles.sidebar,
-            !isLargeScreen && styles.sidebarMobile,
-            !isLargeScreen && { position: "relative", width: "100%" }, 
-            ]}
-        >
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Estoque</Text>
+        style={[
+          styles.contentWrapper,
+          !isLargeScreen && { flexDirection: "column" }, // OBS: empilha tudo no mobile
+        ]}
+      >
+        <View style={[styles.sidebar, !isLargeScreen && styles.sidebarMobile]}>
+          <Text style={styles.menuGroupTitle}>Estoque</Text>
 
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("cadastro")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("CadastroProdutos")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "cadastro" && styles.menuItemHover,
-                ]}
-              >
-                Cadastro de Estoque
-              </Text>
-            </TouchableOpacity>
-            <View>
-              <View style={styles.menuGroup}>
-                <TouchableOpacity
-                  onMouseEnter={() => setHoveredItem("pereciveis")}
-                  onMouseLeave={() => setHoveredItem(null)}
-                >
-                  <Text
-                    style={[
-                      styles.menuItem,
-                      hoveredItem === "pereciveis" && styles.menuItemHover,
-                    ]}
-                  >
-                    Perecíveis
-                  </Text>
-                </TouchableOpacity>
-              </View>
+          <TouchableOpacity onPress={() => navigation.navigate("CadastroProdutos")}>
+            <Text style={styles.menuItem}>Cadastro de Estoque</Text>
+          </TouchableOpacity>
 
-              <View style={styles.menuGroup}>
-                <Text style={styles.menuGroupTitle}>Vendas</Text>
+          <TouchableOpacity>
+            <Text style={styles.menuItem}>Perecíveis</Text>
+          </TouchableOpacity>
 
-                <TouchableOpacity
-                  onMouseEnter={() => setHoveredItem("vendas")}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onPress={() => navigation.navigate("RegistrarVenda")}
-                >
-                  <Text
-                    style={[
-                      styles.menuItem,
-                      hoveredItem === "vendas" && styles.menuItemHover,
-                    ]}
-                  >
-                    Registro de Vendas
-                  </Text>
-                </TouchableOpacity>
+          <Text style={styles.menuGroupTitle}>Vendas</Text>
 
-                <TouchableOpacity
-                  onMouseEnter={() => setHoveredItem("relatorios")}
-                  onMouseLeave={() => setHoveredItem(null)}
-                  onPress={() => navigation.navigate("RelatorioVendas")}
-                >
-                  <Text
-                    style={[
-                      styles.menuItem,
-                      hoveredItem === "relatorios" && styles.menuItemHover,
-                    ]}
-                  >
-                    Relatórios
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("RegistrarVenda")}>
+            <Text style={styles.menuItem}>Registro de Vendas</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("RelatorioVendas")}>
+            <Text style={styles.menuItem}>Relatórios</Text>
+          </TouchableOpacity>
         </View>
         <View style={[styles.mainContent, !isLargeScreen && styles.mainContentMobile]}>
           <Text style={styles.sectionTitle}>Cadastro de Estoque</Text>
@@ -282,6 +221,7 @@ const RegistrarVenda = ({ navigation }) => {
           </View>
         </View>
       </View>
+    </View>
     </View>
   );
 };

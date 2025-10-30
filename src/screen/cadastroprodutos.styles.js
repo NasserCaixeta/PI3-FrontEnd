@@ -18,12 +18,14 @@ export default StyleSheet.create({
     borderColor: "#ddd",
   },
   logoText: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
+    marginRight: 10,
   },
+
   topMenuText: {
     fontSize: 16,
-    marginHorizontal: 10,
+    marginHorizontal: 15,
     color: "#000",
     fontWeight: "bold",
   },

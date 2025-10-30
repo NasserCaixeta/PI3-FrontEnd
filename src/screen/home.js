@@ -86,10 +86,6 @@ export default function Home({ navigation }) {
           <Text style={styles.topMenuText}>Início</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.topMenuText}>Alertas</Text>
-        </TouchableOpacity>
-
         <View style={styles.userInfo}>
           <Text style={styles.userEmail}>{user?.email}</Text>
           <TouchableOpacity onPress={handleLogout}>
