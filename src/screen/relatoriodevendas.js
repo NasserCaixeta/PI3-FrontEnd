@@ -11,6 +11,8 @@ import {
   View
 } from "react-native";
 import styles from "./relatoriodevendas.styles";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 // Firebase
 import {
@@ -180,8 +182,6 @@ export default function RelatorioVendas({ navigation }) {
     </View>
   );
 
-  // Em src/screen/relatoriodevendas.js
-
   return (
     <View style={styles.container}>
       {/* Logo */}
@@ -196,24 +196,13 @@ export default function RelatorioVendas({ navigation }) {
         }}
       />
 
-      {/* Topbar (RESTABELECIDA) */}
-      <View style={styles.topBar}>
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("inicio")}
-          onMouseLeave={() => setHoveredItem(null)}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "inicio" && styles.topMenuHover,
-            ]}
-          >
-            Início
-          </Text>
-        </TouchableOpacity>
-
-      </View>
+      {/* Topbar */}
+      <Header
+        containerStyle={styles.topBar}
+        textStyle={styles.topMenuText}
+        hoverTextStyle={styles.topMenuHover}
+        onPressInicio={() => navigation.navigate("Home")}
+      />
 
       {/* Conteúdo */}
       <View
@@ -222,72 +211,18 @@ export default function RelatorioVendas({ navigation }) {
           !isLargeScreen && styles.contentWrapperMobile,
         ]}
       >
-        {/* Sidebar (RESTABELECIDA) */}
-        <View
-          style={[
-            styles.sidebar,
-            !isLargeScreen && styles.sidebarMobile,
-            !isLargeScreen && { position: "relative", width: "100%" },
-          ]}
-        >
-          {/* ... (Menu de Estoque) ... */}
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Estoque</Text>
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("cadastro")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("CadastroProdutos")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "cadastro" && styles.menuItemHover,
-                ]}
-              >
-                Cadastro de Estoque
-              </Text>
-            </TouchableOpacity>
+        {/* Sidebar */}
+        <Sidebar
+          containerStyle={styles.sidebar}
+          mobileStyle={styles.sidebarMobile}
+          menuGroupTitleStyle={styles.menuGroupTitle}
+          menuItemStyle={styles.menuItem}
+          menuItemHoverStyle={styles.menuItemHover}
+          isLargeScreen={isLargeScreen}
+          navigation={navigation}
+        />
 
-            <TouchableOpacity>
-              <Text style={styles.menuItem}>Perecíveis</Text>
-            </TouchableOpacity>
-          </View>
-          
-          {/* ... (Menu de Vendas) ... */}
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Vendas</Text>
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("vendas")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("RegistrarVenda")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "vendas" && styles.menuItemHover,
-                ]}
-              >
-                Registro de Vendas
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("relatorios")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("RelatorioVendas")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "relatorios" && styles.menuItemHover,
-                ]}
-              >
-                Relatórios
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Main Content (COM O BOTÃO DE EXPORTAR DE VOLTA) */}
+        {/* Main Content */}
         <View
           style={[
             styles.mainContent,

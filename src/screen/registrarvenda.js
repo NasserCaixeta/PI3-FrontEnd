@@ -10,6 +10,8 @@ import {
   View,
 } from "react-native";
 import styles from "./registrarvenda.style";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 // IMPORTAÇÕES DO FIREBASE
 import {
@@ -143,53 +145,24 @@ const RegistrarVenda = ({ navigation }) => {
       />
 
       {/* Topbar (igual ao home.js) */}
-      <View style={styles.topBar}>
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("inicio")}
-          onMouseLeave={() => setHoveredItem(null)}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "inicio" && styles.topMenuHover,
-            ]}
-          >
-            Início
-          </Text>
-        </TouchableOpacity>
-
-      </View>
+      <Header
+        containerStyle={styles.topBar}
+        textStyle={styles.topMenuText}
+        hoverTextStyle={styles.topMenuHover}
+        onPressInicio={() => navigation.navigate("Home")}
+      />
 
       <View style={[styles.contentWrapper, !isLargeScreen && { flexDirection: "column" }]}>
         {/* Sidebar */}
-        <View
-        style={[
-          styles.contentWrapper,
-          !isLargeScreen && { flexDirection: "column" }, // OBS: empilha tudo no mobile
-        ]}
-      >
-        <View style={[styles.sidebar, !isLargeScreen && styles.sidebarMobile]}>
-          <Text style={styles.menuGroupTitle}>Estoque</Text>
-
-          <TouchableOpacity onPress={() => navigation.navigate("CadastroProdutos")}>
-            <Text style={styles.menuItem}>Cadastro de Estoque</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <Text style={styles.menuItem}>Perecíveis</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.menuGroupTitle}>Vendas</Text>
-
-          <TouchableOpacity onPress={() => navigation.navigate("RegistrarVenda")}>
-            <Text style={styles.menuItem}>Registro de Vendas</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={() => navigation.navigate("RelatorioVendas")}>
-            <Text style={styles.menuItem}>Relatórios</Text>
-          </TouchableOpacity>
-        </View>
+        <Sidebar
+          containerStyle={styles.sidebar}
+          mobileStyle={styles.sidebarMobile}
+          menuGroupTitleStyle={styles.menuGroupTitle}
+          menuItemStyle={styles.menuItem}
+          menuItemHoverStyle={styles.menuItemHover}
+          isLargeScreen={isLargeScreen}
+          navigation={navigation}
+        />
 
         {/* mainContent (agora usa o estilo base correto) */}
         <View style={styles.mainContent}>
@@ -232,7 +205,6 @@ const RegistrarVenda = ({ navigation }) => {
           </View>
         </View>
       </View>
-    </View>
     </View>
   );
 };

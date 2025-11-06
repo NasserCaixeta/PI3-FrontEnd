@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { auth, db } from "../../firebaseConfig";
 import styles from "./cadastroprodutos.styles";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 export default function CadastroProdutos({ navigation }) {
   const { width } = useWindowDimensions();
@@ -78,24 +80,12 @@ export default function CadastroProdutos({ navigation }) {
             />
 
       {/* Topbar */}
-      <View style={styles.topBar}>
-
-        <TouchableOpacity
-          onMouseEnter={() => setHoveredItem("inicio")}
-          onMouseLeave={() => setHoveredItem(null)}
-          onPress={() => navigation.navigate("Home")}
-        >
-          <Text
-            style={[
-              styles.topMenuText,
-              hoveredItem === "inicio" && styles.topMenuHover,
-            ]}
-          >
-            Início
-          </Text>
-        </TouchableOpacity>
-
-      </View>
+      <Header
+        containerStyle={styles.topBar}
+        textStyle={styles.topMenuText}
+        hoverTextStyle={styles.topMenuHover}
+        onPressInicio={() => navigation.navigate("Home")}
+      />
 
           <View
       style={[
@@ -105,74 +95,15 @@ export default function CadastroProdutos({ navigation }) {
     >
 
         {/* Sidebar */}
-        <View style={[styles.sidebar, !isLargeScreen && styles.sidebarMobile]}>
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Estoque</Text>
-
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("cadastro")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("CadastroProdutos")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "cadastro" && styles.menuItemHover,
-                ]}
-              >
-                Cadastro de Estoque
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("pereciveis")}
-              onMouseLeave={() => setHoveredItem(null)}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "pereciveis" && styles.menuItemHover,
-                ]}
-              >
-                Perecíveis
-              </Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.menuGroup}>
-            <Text style={styles.menuGroupTitle}>Vendas</Text>
-
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("vendas")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("RegistrarVenda")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "vendas" && styles.menuItemHover,
-                ]}
-              >
-                Registro de Vendas
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onMouseEnter={() => setHoveredItem("relatorios")}
-              onMouseLeave={() => setHoveredItem(null)}
-              onPress={() => navigation.navigate("RelatorioVendas")}
-            >
-              <Text
-                style={[
-                  styles.menuItem,
-                  hoveredItem === "relatorios" && styles.menuItemHover,
-                ]}
-              >
-                Relatórios
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Sidebar
+          containerStyle={styles.sidebar}
+          mobileStyle={styles.sidebarMobile}
+          menuGroupTitleStyle={styles.menuGroupTitle}
+          menuItemStyle={styles.menuItem}
+          menuItemHoverStyle={styles.menuItemHover}
+          isLargeScreen={isLargeScreen}
+          navigation={navigation}
+        />
 
         {/* Main Content */}
         <View style={[styles.mainContent, !isLargeScreen && styles.mainContentMobile]}>
